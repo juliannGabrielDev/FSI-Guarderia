@@ -102,12 +102,13 @@ public class FAcceso extends javax.swing.JFrame {
 
     private void BAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAccederActionPerformed
         String correo = TCorreo.getText();
-        String pass = TContra.getText();
+        String pass = new String(TContra.getPassword());
 
-        String sql = "SELECT id, nombre, rol FROM acceso "
-                + "WHERE correo = '" + correo + "' "
-                + "AND password = '" + pass + "' "
-                + "AND estatus = 'activo';";
+        String sql = "SELECT idUsuario, nombreUsuario, tipoUsuario "
+                + "FROM usuarios "
+                + "WHERE nombreUsuario = '" + correo + "' "
+                + "AND contraseña = '" + pass + "' "
+                + "AND activo = 1;";
 
         ArrayList<ArrayList<String>> resultado = cnx.consultar(sql);
         if (resultado.size() > 0) {
@@ -116,22 +117,22 @@ public class FAcceso extends javax.swing.JFrame {
             String rol = resultado.get(0).get(2);
 
             switch (rol) {
-                case "parentesco":
+                case "Tutor":
                     FTutores ftu = new FTutores();
                     ftu.recibirDatos(cnx, id, nombre);
                     ftu.setVisible(true);
                     break;
-                case "auxiliar":
+                case "Auxiliar":
                     FAuxiliares fau = new FAuxiliares();
                     fau.recibirDatos(cnx, id, nombre);
                     fau.setVisible(true);
                     break;
-                case "admin":
+                case "Administrador":
                     FAdmin fad = new FAdmin();
                     fad.recibirDatos(cnx, id, nombre);
                     fad.setVisible(true);
                     break;
-                case "educador":
+                case "Educadora":
                     FPersonal fper = new FPersonal();
                     fper.recibirDatos(cnx, id, nombre);
                     fper.setVisible(true);
@@ -139,10 +140,8 @@ public class FAcceso extends javax.swing.JFrame {
             }
             this.dispose();
         } else {
-
             JOptionPane.showMessageDialog(this, "Los datos son incorrectos.");
             veces++;
-            System.out.println(veces);
             if (veces >= 3) {
                 JOptionPane.showMessageDialog(this, "Demasiados intentos.");
                 this.dispose();
