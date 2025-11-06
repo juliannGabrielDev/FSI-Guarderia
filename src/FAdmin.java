@@ -20,7 +20,7 @@ public class FAdmin extends javax.swing.JFrame {
         LId.setText("ID: " + id);
         LNombre.setText(nombre);
         
-        pPersonal = new PAdPersonal();
+        pPersonal = new PAdPersonal(this.cnx);
         PContenedor.add(pPersonal);
         PContenedor.revalidate();
         PContenedor.repaint();
