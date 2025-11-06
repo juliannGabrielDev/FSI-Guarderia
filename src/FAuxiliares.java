@@ -9,6 +9,8 @@ public class FAuxiliares extends javax.swing.JFrame {
     Conexion cnx;
     String id;
     String nombre;
+    String salidasAuxiliar;
+    String autorizacionesAuxiliares;
 
     public FAuxiliares() {
         initComponents();
@@ -21,9 +23,13 @@ public class FAuxiliares extends javax.swing.JFrame {
         this.id = id;
         this.nombre = nombre;
         
+        salidasAuxiliar = "SELECT * FROM vw_salidas_auxiliar WHERE idAutorizado = " + id;
+        autorizacionesAuxiliares = "SELECT * FROM vw_autorizaciones_auxiliares WHERE idAuxiliar = " + id;
+        
         // Esto es para poner datos en etiquetas.
         jLabel.setText(id);
         jLabel1.setText(nombre);
+        cnx.entablar(salidasAuxiliar, TConsulta);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,6 +48,8 @@ public class FAuxiliares extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsulta = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
+        BSalidasAuxiliar = new javax.swing.JButton();
+        BInfantesAut = new javax.swing.JButton();
         BReporte1 = new javax.swing.JButton();
         BReporte2 = new javax.swing.JButton();
 
@@ -122,6 +130,28 @@ public class FAuxiliares extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TConsulta);
 
         jToolBar1.setRollover(true);
+
+        BSalidasAuxiliar.setText("SALIDAS AUXILIAR");
+        BSalidasAuxiliar.setFocusable(false);
+        BSalidasAuxiliar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BSalidasAuxiliar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BSalidasAuxiliar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BSalidasAuxiliarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BSalidasAuxiliar);
+
+        BInfantesAut.setText("INFANTES AUTORIZADOS");
+        BInfantesAut.setFocusable(false);
+        BInfantesAut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BInfantesAut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BInfantesAut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BInfantesAutActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BInfantesAut);
 
         BReporte1.setText("REPORTE 1");
         BReporte1.setFocusable(false);
@@ -218,6 +248,14 @@ public class FAuxiliares extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BReporte2ActionPerformed
 
+    private void BSalidasAuxiliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BSalidasAuxiliarActionPerformed
+        cnx.entablar(salidasAuxiliar, TConsulta);
+    }//GEN-LAST:event_BSalidasAuxiliarActionPerformed
+
+    private void BInfantesAutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInfantesAutActionPerformed
+        cnx.entablar(autorizacionesAuxiliares, TConsulta);
+    }//GEN-LAST:event_BInfantesAutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,8 +292,10 @@ public class FAuxiliares extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BInfantesAut;
     private javax.swing.JButton BReporte1;
     private javax.swing.JButton BReporte2;
+    private javax.swing.JButton BSalidasAuxiliar;
     private javax.swing.JLabel LFotoAux;
     private javax.swing.JLabel LFotoInfa;
     private javax.swing.JLabel LId;

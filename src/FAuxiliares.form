@@ -230,6 +230,28 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
       <SubComponents>
+        <Component class="javax.swing.JButton" name="BSalidasAuxiliar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="SALIDAS AUXILIAR"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BSalidasAuxiliarActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="BInfantesAut">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="INFANTES AUTORIZADOS"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BInfantesAutActionPerformed"/>
+          </Events>
+        </Component>
         <Component class="javax.swing.JButton" name="BReporte1">
           <Properties>
             <Property name="text" type="java.lang.String" value="REPORTE 1"/>
