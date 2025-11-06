@@ -116,25 +116,49 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BEsteMomentoActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BEntrada">
+        <Component class="javax.swing.JComboBox" name="CBTipo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="DE ENTRADA"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Inter" size="12" style="0"/>
+            </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="TODOS"/>
+                <StringItem index="1" value="ENTRADA"/>
+                <StringItem index="2" value="SALIDA"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="CBTipoItemStateChanged"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="BConteoEnMes">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Inter" size="12" style="0"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="CONTEO EN MES"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="BSalida">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="DE SALIDA"/>
-            <Property name="focusable" type="boolean" value="false"/>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="verticalTextPosition" type="int" value="3"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BConteoEnMesActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="BReporte1">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Inter" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="REPORTE 1"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -261,6 +285,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="CBMesItemStateChanged"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

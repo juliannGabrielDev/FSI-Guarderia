@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 public class PAdRegistrosES extends javax.swing.JPanel {
 
     private Conexion cnx;
+    String conteoEntradasMes = "SELECT * FROM vw_conteo_entradas_mes";
+    String entradasYSalidas = "SELECT * FROM vw_entradas_salidas";
 
     /**
      * Creates new form AdminPersonal
@@ -21,6 +23,8 @@ public class PAdRegistrosES extends javax.swing.JPanel {
     public PAdRegistrosES(Conexion cnx) {
         this.cnx = cnx;
         initComponents();
+
+        cnx.entablar(entradasYSalidas, TConsultas);
     }
 
     /**
@@ -36,8 +40,8 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         BTodos = new javax.swing.JButton();
         BHoy = new javax.swing.JButton();
         BEsteMomento = new javax.swing.JButton();
-        BEntrada = new javax.swing.JButton();
-        BSalida = new javax.swing.JButton();
+        CBTipo = new javax.swing.JComboBox<>();
+        BConteoEnMes = new javax.swing.JButton();
         BReporte1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -82,20 +86,35 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         BEsteMomento.setText("EN ESTE MOMENTO");
         BEsteMomento.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BEsteMomento.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEsteMomento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEsteMomentoActionPerformed(evt);
+            }
+        });
         jToolBar2.add(BEsteMomento);
 
-        BEntrada.setText("DE ENTRADA");
-        BEntrada.setFocusable(false);
-        BEntrada.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BEntrada.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(BEntrada);
+        CBTipo.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        CBTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ENTRADA", "SALIDA" }));
+        CBTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBTipoItemStateChanged(evt);
+            }
+        });
+        jToolBar2.add(CBTipo);
 
-        BSalida.setText("DE SALIDA");
-        BSalida.setFocusable(false);
-        BSalida.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BSalida.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(BSalida);
+        BConteoEnMes.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BConteoEnMes.setText("CONTEO EN MES");
+        BConteoEnMes.setFocusable(false);
+        BConteoEnMes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BConteoEnMes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BConteoEnMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BConteoEnMesActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(BConteoEnMes);
 
+        BReporte1.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         BReporte1.setText("REPORTE 1");
         BReporte1.setFocusable(false);
         BReporte1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -146,6 +165,11 @@ public class PAdRegistrosES extends javax.swing.JPanel {
 
         CBMes.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         CBMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Enero", "Febrero", "Marzo", "Abril", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        CBMes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBMesItemStateChanged(evt);
+            }
+        });
         jToolBar1.add(CBMes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -188,11 +212,12 @@ public class PAdRegistrosES extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
-        // TODO add your handling code here:
+        cnx.entablar(entradasYSalidas, TConsultas);
     }//GEN-LAST:event_BTodosActionPerformed
 
     private void BHoyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BHoyActionPerformed
-        // TODO add your handling code here:
+        String sql = "SELECT * FROM vw_entradas_salidas WHERE fecha = CURDATE()";
+        cnx.entablar(sql, TConsultas);
     }//GEN-LAST:event_BHoyActionPerformed
 
     private void BReporte1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReporte1ActionPerformed
@@ -222,16 +247,97 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_BReporte1ActionPerformed
 
+    private void BConteoEnMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BConteoEnMesActionPerformed
+        if (CBMes.getSelectedIndex() == 0) {
+            cnx.entablar(conteoEntradasMes, TConsultas);
+            return;
+        }
+
+        int mesNumero = CBMes.getSelectedIndex();
+        String sql = conteoEntradasMes + " WHERE mes = " + mesNumero;
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_BConteoEnMesActionPerformed
+
+    private void CBMesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBMesItemStateChanged
+        if (CBMes.getSelectedIndex() == 0) {
+            cnx.entablar(conteoEntradasMes, TConsultas);
+            return;
+        }
+
+        int mesNumero = CBMes.getSelectedIndex();
+        String sql = conteoEntradasMes + " WHERE mes = " + mesNumero;
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_CBMesItemStateChanged
+
+    private void BEsteMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEsteMomentoActionPerformed
+        String sql = """
+        SELECT 
+            e.idInfante, 
+            i.nombreinf AS Nombre, 
+            e.fechaEntrada AS FechaEntrada, 
+            e.horaEntrada AS HoraEntrada, 
+            ed.nombreedu AS Educadora
+        FROM entradas e
+        JOIN infantes i ON e.idInfante = i.idInfante
+        LEFT JOIN educadoras ed ON e.idEducadora = ed.idEducadora
+        WHERE e.fechaEntrada = CURDATE()
+          AND e.idInfante NOT IN (
+              SELECT s.idInfante 
+              FROM salidas s 
+              WHERE s.fechaSalida = CURDATE()
+          );
+    """;
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_BEsteMomentoActionPerformed
+
+    private void CBTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBTipoItemStateChanged
+        String tipo = CBTipo.getSelectedItem().toString();
+
+        String sql;
+        if (tipo.equals("ENTRADA")) {
+            sql = """
+                SELECT 
+                    e.idEntrada AS ID,
+                    i.nombreinf AS Infante,
+                    e.fechaEntrada AS Fecha,
+                    e.horaEntrada AS Hora,
+                    ed.nombreedu AS Educadora
+                FROM entradas e
+                JOIN infantes i ON e.idInfante = i.idInfante
+                LEFT JOIN educadoras ed ON e.idEducadora = ed.idEducadora
+                ORDER BY e.fechaEntrada DESC, e.horaEntrada DESC;
+            """;
+            cnx.entablar(sql, TConsultas);
+        } else if (tipo.equals("SALIDA")) {
+            sql = """
+                SELECT 
+                    s.idSalida AS ID,
+                    i.nombreinf AS Infante,
+                    s.fechaSalida AS Fecha,
+                    s.horaSalida AS Hora,
+                    s.tipoAutorizado AS TipoAutorizado,
+                    ed.nombreedu AS Educadora
+                FROM salidas s
+                JOIN infantes i ON s.idInfante = i.idInfante
+                LEFT JOIN educadoras ed ON s.idEducadora = ed.idEducadora
+                ORDER BY s.fechaSalida DESC, s.horaSalida DESC;
+            """;
+            cnx.entablar(sql, TConsultas);
+        } else {
+            cnx.entablar(entradasYSalidas, TConsultas);
+        }
+    }//GEN-LAST:event_CBTipoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BEntrada;
+    private javax.swing.JButton BConteoEnMes;
     private javax.swing.JButton BEsteMomento;
     private javax.swing.JButton BHoy;
     private javax.swing.JButton BReporte1;
-    private javax.swing.JButton BSalida;
     private javax.swing.JButton BTodos;
     private javax.swing.JComboBox<String> CBDia;
     private javax.swing.JComboBox<String> CBMes;
+    private javax.swing.JComboBox<String> CBTipo;
     private javax.swing.JTable TConsultas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
