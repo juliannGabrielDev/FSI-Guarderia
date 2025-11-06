@@ -3,21 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 
-
-//import Conexion;
-
 /**
  *
  * @author jli4n
  */
 public class PAdPersonal extends javax.swing.JPanel {
 
-    //private Conexion cnx;
+    private Conexion cnx;
     /**
      * Creates new form AdminPersonal
      */
-    public PAdPersonal() {
-        //this.cnx = cnx;
+    public PAdPersonal(Conexion cnx) {
+        this.cnx = cnx;
         initComponents();
     }
 
