@@ -1,22 +1,15 @@
 
-
-import Admin.PAdInfantes;
-import Admin.PAdPersonal;
-import Admin.PAdEncargados;
-import Admin.PAdRegistrosES;
-
 public class FAdmin extends javax.swing.JFrame {
 
     Conexion cnx;
     String id;
     String nombre;
-    PAdPersonal pPersonal = new PAdPersonal();
+    PAdPersonal pPersonal;
 
     public FAdmin() {
         initComponents();
 
         setLocationRelativeTo(this);
-        PContenedor.add(pPersonal);
     }
 
     public void recibirDatos(Conexion cnx, String id, String nombre) {
@@ -26,6 +19,11 @@ public class FAdmin extends javax.swing.JFrame {
 
         LId.setText("ID: " + id);
         LNombre.setText(nombre);
+        
+        pPersonal = new PAdPersonal();
+        PContenedor.add(pPersonal);
+        PContenedor.revalidate();
+        PContenedor.repaint();
     }
 
     /**
@@ -81,7 +79,7 @@ public class FAdmin extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         BPersonal.setFont(new java.awt.Font("Inter", 1, 12)); // NOI18N
         BPersonal.setText("PERSONAL");
@@ -189,14 +187,14 @@ public class FAdmin extends javax.swing.JFrame {
 
     private void BInfantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInfantesActionPerformed
         PContenedor.removeAll();
-        PContenedor.add(new PAdInfantes());
+        PContenedor.add(new PAdInfantes(this.cnx));
         PContenedor.revalidate(); // recalcula el layout
         PContenedor.repaint(); // repinta la interfaz
     }//GEN-LAST:event_BInfantesActionPerformed
 
     private void BEncargadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEncargadosActionPerformed
         PContenedor.removeAll();
-        PContenedor.add(new PAdEncargados());
+        PContenedor.add(new PAdEncargados(this.cnx));
         PContenedor.revalidate(); // recalcula el layout
         PContenedor.repaint(); // repinta la interfaz
     }//GEN-LAST:event_BEncargadosActionPerformed
@@ -210,7 +208,7 @@ public class FAdmin extends javax.swing.JFrame {
 
     private void BRegistrosESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BRegistrosESActionPerformed
         PContenedor.removeAll();
-        PContenedor.add(new PAdRegistrosES());
+        PContenedor.add(new PAdRegistrosES(this.cnx));
         PContenedor.revalidate(); // recalcula el layout
         PContenedor.repaint(); // repinta la interfaz
     }//GEN-LAST:event_BRegistrosESActionPerformed
