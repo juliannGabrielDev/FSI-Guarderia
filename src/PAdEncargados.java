@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Admin;
 
 /**
  *
@@ -10,10 +9,12 @@ package Admin;
  */
 public class PAdEncargados extends javax.swing.JPanel {
 
+    private Conexion cnx;
     /**
      * Creates new form AdminPersonal
      */
-    public PAdEncargados() {
+    public PAdEncargados(Conexion cnx) {
+        this.cnx = cnx;
         initComponents();
     }
 
