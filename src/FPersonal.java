@@ -1,20 +1,43 @@
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+
 public class FPersonal extends javax.swing.JFrame {
 
-    Conexion cnx;
+    Conexion cnx = new Conexion();
     String id;
     String nombre;
+
+//    String edu1 = "SELECT * FROM entradas_edu ";
+    String infantesdata = "SELECT * FROM infantesdatos";// Se muestra al iniciar la ventana
+    String grupos = "SELECT nombreGrupo FROM grupos ORDER BY nombreGrupo";// Para el combobox
+    String infoInfa = "SELECT * FROM infantesdatos WHERE nombre_Infante LIKE '%";// Para buscar infante
+    String grupcb = "SELECT * FROM infoinfantes WHERE grupo_asignado = '";// Filtrar por grupos
+
+    String edu1 = "SELECT idEducadora, i.idInfante, nombreinf, MONTH(fechaEntrada) AS mes, COUNT(*) AS asistencias "
+            + "FROM infantes i "
+            + "JOIN entradas e  ON i.idInfante = e.idInfante ";
+
+    String edu2 = "SELECT * FROM infoinfantes ORDER BY grupo_asignado";// Vista para mostrar nombre del infante, grupo y tutor.
 
     public FPersonal() {
         initComponents();
         setLocationRelativeTo(this);
-        TEntradas.setRowHeight(100);
-        TSalidas.setRowHeight(100);
+//        TConsultas.setRowHeight(100);
+//        TSalidasEntradas.setRowHeight(100);
         TTutor.setEnabled(false);
         TAuxiliar.setEnabled(false);
         TIdTu.setEnabled(false);
         TIdAux.setEnabled(false);
         TInfante.setEnabled(false);
+
+        if (cnx.conectar("localhost", "guarderia", "root", "") == 1) {
+             cnx.seleccionar(grupos, CBGrupos);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo conectar.");
+            System.exit(0);
+        }
 
     }
 
@@ -23,11 +46,11 @@ public class FPersonal extends javax.swing.JFrame {
         this.cnx = cnx;
         this.id = id;
         this.nombre = nombre;
-
         // Esto es para poner datos en etiquetas.
         LId.setText(id);
         LNombre.setText(nombre);
-
+        cnx.entablar(infantesdata, TConsultas);
+        cnx.seleccionar(grupos, CBGrupos);
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +63,7 @@ public class FPersonal extends javax.swing.JFrame {
         jlabel = new javax.swing.JLabel();
         jlabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TSalidas = new javax.swing.JTable();
+        TSalidasEntradas = new javax.swing.JTable();
         CBEntSal = new javax.swing.JComboBox<>();
         BAceptar = new javax.swing.JButton();
         BCancelar = new javax.swing.JButton();
@@ -53,7 +76,7 @@ public class FPersonal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TEntradas = new javax.swing.JTable();
+        TConsultas = new javax.swing.JTable();
         TBuscarInfa = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -64,6 +87,16 @@ public class FPersonal extends javax.swing.JFrame {
         TIdAux = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         TPermiso = new javax.swing.JTextField();
+        jToolBar1 = new javax.swing.JToolBar();
+        BTodos = new javax.swing.JButton();
+        BEducador1 = new javax.swing.JButton();
+        CBMes = new javax.swing.JComboBox<>();
+        BReporte1 = new javax.swing.JButton();
+        BEducador2 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        CBGrupos = new javax.swing.JComboBox<>();
+        BReporte2 = new javax.swing.JButton();
+        TBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Personal");
@@ -107,7 +140,7 @@ public class FPersonal extends javax.swing.JFrame {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        TSalidas.setModel(new javax.swing.table.DefaultTableModel(
+        TSalidasEntradas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -118,7 +151,7 @@ public class FPersonal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TSalidas);
+        jScrollPane1.setViewportView(TSalidasEntradas);
 
         CBEntSal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada", "Salida" }));
 
@@ -159,12 +192,12 @@ public class FPersonal extends javax.swing.JFrame {
         jLabel5.setText("REGISTRO DE ENTRADAS Y SALIDAS");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Lista de salidas:");
+        jLabel6.setText("Lista de entradas y salidas:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Lista de entradas:");
+        jLabel7.setText("Consultas:");
 
-        TEntradas.setModel(new javax.swing.table.DefaultTableModel(
+        TConsultas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -175,16 +208,11 @@ public class FPersonal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(TEntradas);
+        jScrollPane2.setViewportView(TConsultas);
 
         TBuscarInfa.setBackground(new java.awt.Color(255, 255, 255));
         TBuscarInfa.setForeground(new java.awt.Color(0, 0, 0));
         TBuscarInfa.setMaximumSize(new java.awt.Dimension(68, 26));
-        TBuscarInfa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TBuscarInfaKeyTyped(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -220,6 +248,127 @@ public class FPersonal extends javax.swing.JFrame {
         TPermiso.setBackground(new java.awt.Color(255, 255, 255));
         TPermiso.setForeground(new java.awt.Color(0, 0, 0));
         TPermiso.setMaximumSize(new java.awt.Dimension(68, 26));
+
+        jToolBar1.setBackground(new java.awt.Color(0, 51, 255));
+        jToolBar1.setForeground(new java.awt.Color(0, 0, 0));
+        jToolBar1.setRollover(true);
+
+        BTodos.setBackground(new java.awt.Color(255, 255, 255));
+        BTodos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BTodos.setForeground(new java.awt.Color(0, 0, 0));
+        BTodos.setText("TODOS");
+        BTodos.setFocusable(false);
+        BTodos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTodos.setMaximumSize(new java.awt.Dimension(70, 50));
+        BTodos.setMinimumSize(new java.awt.Dimension(70, 50));
+        BTodos.setPreferredSize(new java.awt.Dimension(70, 50));
+        BTodos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTodosActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BTodos);
+
+        BEducador1.setBackground(new java.awt.Color(255, 255, 255));
+        BEducador1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BEducador1.setForeground(new java.awt.Color(0, 0, 0));
+        BEducador1.setText("ENTRADAS");
+        BEducador1.setFocusable(false);
+        BEducador1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BEducador1.setMaximumSize(new java.awt.Dimension(85, 50));
+        BEducador1.setMinimumSize(new java.awt.Dimension(85, 50));
+        BEducador1.setPreferredSize(new java.awt.Dimension(85, 50));
+        BEducador1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEducador1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEducador1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BEducador1);
+
+        CBMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        CBMes.setMaximumSize(new java.awt.Dimension(100, 70));
+        CBMes.setMinimumSize(new java.awt.Dimension(100, 70));
+        CBMes.setPreferredSize(new java.awt.Dimension(100, 50));
+        jToolBar1.add(CBMes);
+
+        BReporte1.setBackground(new java.awt.Color(255, 255, 255));
+        BReporte1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BReporte1.setForeground(new java.awt.Color(0, 0, 0));
+        BReporte1.setText("REPORTE 1");
+        BReporte1.setFocusable(false);
+        BReporte1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BReporte1.setMaximumSize(new java.awt.Dimension(85, 50));
+        BReporte1.setMinimumSize(new java.awt.Dimension(85, 50));
+        BReporte1.setPreferredSize(new java.awt.Dimension(85, 50));
+        BReporte1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BReporte1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BReporte1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BReporte1);
+
+        BEducador2.setBackground(new java.awt.Color(255, 255, 255));
+        BEducador2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BEducador2.setForeground(new java.awt.Color(0, 0, 0));
+        BEducador2.setText("EDU 2");
+        BEducador2.setFocusable(false);
+        BEducador2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BEducador2.setMaximumSize(new java.awt.Dimension(70, 50));
+        BEducador2.setMinimumSize(new java.awt.Dimension(70, 50));
+        BEducador2.setPreferredSize(new java.awt.Dimension(70, 50));
+        BEducador2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEducador2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEducador2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BEducador2);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("GRUPO:");
+        jToolBar1.add(jLabel11);
+
+        CBGrupos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3" }));
+        CBGrupos.setMaximumSize(new java.awt.Dimension(85, 70));
+        CBGrupos.setMinimumSize(new java.awt.Dimension(85, 70));
+        CBGrupos.setPreferredSize(new java.awt.Dimension(85, 50));
+        CBGrupos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBGruposItemStateChanged(evt);
+            }
+        });
+        jToolBar1.add(CBGrupos);
+
+        BReporte2.setBackground(new java.awt.Color(255, 255, 255));
+        BReporte2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        BReporte2.setForeground(new java.awt.Color(0, 0, 0));
+        BReporte2.setText("REPORTE 2");
+        BReporte2.setFocusable(false);
+        BReporte2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BReporte2.setMaximumSize(new java.awt.Dimension(85, 50));
+        BReporte2.setMinimumSize(new java.awt.Dimension(85, 50));
+        BReporte2.setPreferredSize(new java.awt.Dimension(85, 50));
+        BReporte2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BReporte2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BReporte2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(BReporte2);
+
+        TBuscar.setMaximumSize(new java.awt.Dimension(130, 50));
+        TBuscar.setMinimumSize(new java.awt.Dimension(130, 50));
+        TBuscar.setPreferredSize(new java.awt.Dimension(130, 50));
+        TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TBuscarKeyTyped(evt);
+            }
+        });
+        jToolBar1.add(TBuscar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -279,17 +428,17 @@ public class FPersonal extends javax.swing.JFrame {
                     .addComponent(BCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BAceptar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +455,7 @@ public class FPersonal extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -326,12 +475,14 @@ public class FPersonal extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CBEntSal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))
+                            .addComponent(SFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(BAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(BCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -345,14 +496,62 @@ public class FPersonal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TBuscarInfaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarInfaKeyTyped
-//        String[] columnas = {"id_infante", "nombrei"};
-//        cnx.buscar("infantes", columnas, TBuscarInfa.getText(), LIfante);
-    }//GEN-LAST:event_TBuscarInfaKeyTyped
-
     private void BCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCancelarActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_BCancelarActionPerformed
+
+    private void BEducador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEducador1ActionPerformed
+        String educadora = JOptionPane.showInputDialog(this, "ID Educadora:");
+        int mes = CBMes.getSelectedIndex();
+        String sql = "SELECT * FROM entradas_edu WHERE ideducadora = " + educadora + " AND mes = " + mes;
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_BEducador1ActionPerformed
+
+    private void BEducador2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEducador2ActionPerformed
+        cnx.entablar(edu2, TConsultas);// Muestra la consulta 2
+    }//GEN-LAST:event_BEducador2ActionPerformed
+
+    private void BReporte1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReporte1ActionPerformed
+        int mes = CBMes.getSelectedIndex();
+        String reporte = System.getProperty("user.dir") + "/edu1.jasper";
+        Map parametros = new HashMap();
+        parametros.put("educadora", this.id);
+        parametros.put("mes", String.valueOf(mes));
+
+        if (cnx.ejecutarReporte(reporte, parametros) == 0) {
+            JOptionPane.showMessageDialog(this, "Error al ejecutar el reporte");
+        }
+    }//GEN-LAST:event_BReporte1ActionPerformed
+
+    private void BReporte2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReporte2ActionPerformed
+
+        String reporte = System.getProperty("user.dir") + "/edu2.jasper";
+        Map parametros = new HashMap();
+        parametros.put("educa2", CBGrupos.getSelectedItem().toString());
+
+        if (cnx.ejecutarReporte(reporte, parametros) == 0) {
+            JOptionPane.showMessageDialog(this, "Error al ejecutar el reporte");
+        }
+    }//GEN-LAST:event_BReporte2ActionPerformed
+
+    private void CBGruposItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBGruposItemStateChanged
+        // Filtra por grupo completando la consulta de grupcb y entabla
+        String filtrar = CBGrupos.getSelectedItem().toString();
+        String sql = grupcb + filtrar + "'";
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_CBGruposItemStateChanged
+
+    private void TBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyTyped
+        // Aquí busca a un infante en especifico
+        String nombrein = TBuscar.getText();
+        String sql = infoInfa + nombrein + "%'";
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_TBuscarKeyTyped
+
+    private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        // Entabla la consulta infantesdata (datos generales)
+        cnx.entablar(infantesdata, TConsultas);
+    }//GEN-LAST:event_BTodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -392,21 +591,30 @@ public class FPersonal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BAceptar;
     private javax.swing.JButton BCancelar;
+    private javax.swing.JButton BEducador1;
+    private javax.swing.JButton BEducador2;
+    private javax.swing.JButton BReporte1;
+    private javax.swing.JButton BReporte2;
+    private javax.swing.JButton BTodos;
     private javax.swing.JComboBox<String> CBEntSal;
+    private javax.swing.JComboBox<String> CBGrupos;
+    private javax.swing.JComboBox<String> CBMes;
     private javax.swing.JLabel LId;
     private javax.swing.JLabel LNombre;
     private javax.swing.JSpinner SFecha;
     private javax.swing.JTextField TAuxiliar;
+    private javax.swing.JTextField TBuscar;
     private javax.swing.JTextField TBuscarInfa;
-    private javax.swing.JTable TEntradas;
+    private javax.swing.JTable TConsultas;
     private javax.swing.JTextField TIdAux;
     private javax.swing.JTextField TIdTu;
     private javax.swing.JTextField TInfante;
     private javax.swing.JTextField TPermiso;
-    private javax.swing.JTable TSalidas;
+    private javax.swing.JTable TSalidasEntradas;
     private javax.swing.JTextField TTutor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -418,6 +626,7 @@ public class FPersonal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlabel;
     private javax.swing.JLabel jlabel1;
     // End of variables declaration//GEN-END:variables
