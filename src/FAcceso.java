@@ -133,8 +133,10 @@ public class FAcceso extends javax.swing.JFrame {
                     fad.setVisible(true);
                     break;
                 case "Educadora":
+                    String idEdu = cnx.buscarDato("educadoras", "idEducadora", "idUsuario", id);
+                    
                     FPersonal fper = new FPersonal();
-                    fper.recibirDatos(cnx, id, nombre);
+                    fper.recibirDatos(cnx, idEdu, nombre);
                     fper.setVisible(true);
                     break;
             }
