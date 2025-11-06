@@ -432,14 +432,21 @@ public class Conexion {
     //--------------------------------------------------------------------------
     public int ejecutarReporte(String archivo, Map parametro) {
         try {
-            JasperReport masterReport = (JasperReport) JRLoader.loadObject(new File(archivo));
+            File archivoReporte = new File(archivo);
+            if (!archivoReporte.exists()) {
+                System.out.println("ERROR: El archivo no existe: " + archivo);
+                return 0;
+            }
+
+            JasperReport masterReport = (JasperReport) JRLoader.loadObject(archivoReporte);
             JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, con);
             JasperViewer jviewer = new JasperViewer(jasperPrint, false);
             jviewer.setVisible(true);
             return 1;
         } catch (Exception j) {
-            System.out.println("ERROR: "+j.getMessage());
-           return 0;
+            System.out.println("ERROR al ejecutar reporte: " + j.getMessage());
+            j.printStackTrace();
+            return 0;
         }
     } 
     // </editor-fold>
