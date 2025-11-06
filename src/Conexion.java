@@ -18,12 +18,12 @@ import javax.swing.table.TableColumn;
 import java.io.File;
 import java.util.Calendar;
 
-//import java.util.Map;
-//import net.sf.jasperreports.engine.JasperFillManager;
-//import net.sf.jasperreports.engine.JasperPrint;
-//import net.sf.jasperreports.engine.JasperReport;
-//import net.sf.jasperreports.engine.util.JRLoader;
-//import net.sf.jasperreports.view.JasperViewer;
+import java.util.Map;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 public class Conexion {
 
     Connection con;
@@ -430,18 +430,18 @@ public class Conexion {
     //--------------------------------------------------------------------------
     //-------- ejecuta un reporte jasper
     //--------------------------------------------------------------------------
-//    public int ejecutarReporte(String archivo, Map parametro) {
-//        try {
-//            JasperReport masterReport = (JasperReport) JRLoader.loadObject(new File(archivo));
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, con);
-//            JasperViewer jviewer = new JasperViewer(jasperPrint, false);
-//            jviewer.setVisible(true);
-//            return 1;
-//        } catch (Exception j) {
-//            System.out.println("ERROR: "+j.getMessage());
-//           return 0;
-//        }
-//    } 
+    public int ejecutarReporte(String archivo, Map parametro) {
+        try {
+            JasperReport masterReport = (JasperReport) JRLoader.loadObject(new File(archivo));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, con);
+            JasperViewer jviewer = new JasperViewer(jasperPrint, false);
+            jviewer.setVisible(true);
+            return 1;
+        } catch (Exception j) {
+            System.out.println("ERROR: "+j.getMessage());
+           return 0;
+        }
+    } 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Codigo para manejo de imágenes">  
     //--------------------------------------------------------------------------
