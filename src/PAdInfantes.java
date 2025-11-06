@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 /**
  *
  * @author jli4n
@@ -16,11 +15,14 @@ public class PAdInfantes extends javax.swing.JPanel {
 
     private Conexion cnx;
     String grupos = "SELECT nombreGrupo FROM grupos ORDER BY nombreGrupo";
-    
+    String infantes = "SELECT * FROM infantes";
+    String infantesPorGrupos = "SELECT * FROM vw_infantes_por_grupo";
+
     public PAdInfantes(Conexion cnx) {
         this.cnx = cnx;
         initComponents();
-        
+
+        cnx.entablar(infantes, TConsultas);
         cnx.seleccionar(grupos, CBGrupo);
     }
 
@@ -35,9 +37,8 @@ public class PAdInfantes extends javax.swing.JPanel {
 
         jToolBar2 = new javax.swing.JToolBar();
         TBuscar = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        BTodos = new javax.swing.JButton();
+        BPorGrupo = new javax.swing.JButton();
         BReporte2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         BNuevo = new javax.swing.JButton();
@@ -47,6 +48,7 @@ public class PAdInfantes extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsultas = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
+        jLabel3 = new javax.swing.JLabel();
         CBGrupo = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -60,33 +62,27 @@ public class PAdInfantes extends javax.swing.JPanel {
         TBuscar.setPreferredSize(new java.awt.Dimension(140, 24));
         jToolBar2.add(TBuscar);
 
-        jButton4.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton4.setText("TODOS");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        BTodos.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BTodos.setText("TODOS");
+        BTodos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTodos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BTodosActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton4);
+        jToolBar2.add(BTodos);
 
-        jButton5.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton5.setText("ADMINs");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        BPorGrupo.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BPorGrupo.setText("POR GRUPO");
+        BPorGrupo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BPorGrupo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BPorGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BPorGrupoActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton5);
-
-        jButton6.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton6.setText("EDUCADORES");
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton6);
+        jToolBar2.add(BPorGrupo);
 
         BReporte2.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         BReporte2.setText("REPORTE 2");
@@ -151,7 +147,15 @@ public class PAdInfantes extends javax.swing.JPanel {
 
         jToolBar1.setRollover(true);
 
+        jLabel3.setText("Grupo:");
+        jToolBar1.add(jLabel3);
+
         CBGrupo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CBGrupo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CBGrupoItemStateChanged(evt);
+            }
+        });
         jToolBar1.add(CBGrupo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -201,20 +205,29 @@ public class PAdInfantes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BBorrarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        cnx.entablar(infantes, TConsultas);
+    }//GEN-LAST:event_BTodosActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void BPorGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPorGrupoActionPerformed
+        //cnx.entablar(infantesPorGrupos, TConsultas);
+        
+        if (CBGrupo.getSelectedIndex() == 0) {
+            cnx.entablar(infantesPorGrupos, TConsultas);
+            return;
+        }
+        
+        String grupo = CBGrupo.getSelectedItem().toString();
+        String sql = infantesPorGrupos + " WHERE nombreGrupo = " + grupo;
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_BPorGrupoActionPerformed
 
     private void BReporte2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReporte2ActionPerformed
         if (CBGrupo.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Selecciona un grupo");
             return;
         }
-        
+
         String reporte = System.getProperty("user.dir") + "/infantes_por_grupo.jasper";
         Map parametros = new HashMap();
         parametros.put("grupo", CBGrupo.getSelectedItem().toString());
@@ -222,26 +235,37 @@ public class PAdInfantes extends javax.swing.JPanel {
         System.out.println("Intentando abrir reporte: " + reporte);
         if (cnx.ejecutarReporte(reporte, parametros) == 0) {
             JOptionPane.showMessageDialog(this,
-                "Error al ejecutar el reporte.\nVerifique la consola para más detalles.\nArchivo: " + reporte,
-                "Error en Reporte 1",
-                JOptionPane.ERROR_MESSAGE);
+                    "Error al ejecutar el reporte.\nVerifique la consola para más detalles.\nArchivo: " + reporte,
+                    "Error en Reporte 1",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_BReporte2ActionPerformed
+
+    private void CBGrupoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBGrupoItemStateChanged
+        if (CBGrupo.getSelectedIndex() == 0) {
+            cnx.entablar(infantesPorGrupos, TConsultas);
+            return;
+        }
+        
+        String grupo = CBGrupo.getSelectedItem().toString();
+        String sql = infantesPorGrupos + " WHERE nombreGrupo = '" + grupo + "'";
+        cnx.entablar(sql, TConsultas);
+    }//GEN-LAST:event_CBGrupoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BBorrar;
     private javax.swing.JButton BEditar;
     private javax.swing.JButton BNuevo;
+    private javax.swing.JButton BPorGrupo;
     private javax.swing.JButton BReporte2;
+    private javax.swing.JButton BTodos;
     private javax.swing.JComboBox<String> CBGrupo;
     private javax.swing.JTextField TBuscar;
     private javax.swing.JTable TConsultas;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
