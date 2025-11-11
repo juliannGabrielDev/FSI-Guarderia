@@ -65,7 +65,6 @@
                                       <Component id="SFecha" min="-2" pref="138" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -99,7 +98,7 @@
                       <Component id="jLabel7" min="-2" pref="382" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+              <EmptySpace min="46" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="BCancelar" min="-2" pref="155" max="-2" attributes="0"/>
                   <Component id="BAceptar" min="-2" pref="155" max="-2" attributes="0"/>
