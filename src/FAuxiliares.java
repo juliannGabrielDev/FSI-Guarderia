@@ -2,7 +2,7 @@
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
-
+import Util.Conexion;
 
 public class FAuxiliares extends javax.swing.JFrame {
 

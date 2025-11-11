@@ -1,4 +1,11 @@
 
+import Admin.Panels.PAdRegistrosES;
+import Admin.Panels.PAdEncargados;
+import Admin.Panels.PAdPersonal;
+import Admin.Panels.PAdInfantes;
+import Util.Conexion;
+
+
 public class FAdmin extends javax.swing.JFrame {
 
     Conexion cnx;
