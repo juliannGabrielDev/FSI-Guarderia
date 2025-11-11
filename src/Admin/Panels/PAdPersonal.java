@@ -1,3 +1,6 @@
+package Admin.Panels;
+import Util.Conexion;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
@@ -89,6 +92,11 @@ public class PAdPersonal extends javax.swing.JPanel {
         BNuevo.setText("NUEVO");
         BNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BNuevoActionPerformed(evt);
+            }
+        });
 
         BEditar.setBackground(new java.awt.Color(0, 153, 153));
         BEditar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -97,6 +105,11 @@ public class PAdPersonal extends javax.swing.JPanel {
         BEditar.setText("EDITAR");
         BEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEditarActionPerformed(evt);
+            }
+        });
 
         BBorrar.setBackground(new java.awt.Color(255, 51, 102));
         BBorrar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -184,6 +197,14 @@ public class PAdPersonal extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BNuevoActionPerformed
+
+    private void BEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
