@@ -525,9 +525,18 @@ public class FPersonal extends javax.swing.JFrame {
 
     private void CBGruposItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CBGruposItemStateChanged
         // Filtra por grupo completando la consulta de "grupcb" y entabla
-        String filtrar = CBGrupos.getSelectedItem().toString();
-        String sql = grupcb + filtrar + "'";
-        cnx.entablar(sql, TConsultas);
+        // Si el índice seleccionado es 0 (asumiendo que es "Todos" o el valor por defecto)
+        if (CBGrupos.getSelectedIndex() == 0) {
+
+            cnx.entablar("SELECT * FROM infoinfantes ", TConsultas); // Usar la consulta de todos (infantesdata)
+        } else {
+            // Si se selecciona un grupo específico, completa la consulta y entabla
+            String filtrar = CBGrupos.getSelectedItem().toString();
+            String sql = grupcb + filtrar + "'";
+            cnx.entablar(sql, TConsultas);
+        }
+
+
     }//GEN-LAST:event_CBGruposItemStateChanged
 
     private void TBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyTyped
