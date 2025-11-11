@@ -3,6 +3,8 @@ import Util.Conexion;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class FTutores extends javax.swing.JFrame {
 
@@ -12,12 +14,19 @@ public class FTutores extends javax.swing.JFrame {
 
     String entradasMensualesInfantes;
     String infantes;
-    String infa, nombreinf;
+    String infa;
 
     //-----------------------------------------------------------------------------------------------------------------------------------------/
     public FTutores() {
         initComponents();
         setLocationRelativeTo(this);
+        // Ordena elementos de la tabla a la columna seleccionada 
+        DefaultTableModel modelo1 = (DefaultTableModel) TConsultas.getModel();
+        DefaultTableModel modelo2 = (DefaultTableModel) TInfantes.getModel();
+        TableRowSorter<DefaultTableModel> sorter1 = new TableRowSorter<>(modelo1);
+        TConsultas.setRowSorter(sorter1);
+        TableRowSorter<DefaultTableModel> sorter2 = new TableRowSorter<>(modelo2);
+        TInfantes.setRowSorter(sorter2);
 
     }
 
@@ -27,14 +36,11 @@ public class FTutores extends javax.swing.JFrame {
         this.nombre = nombre;
 
         infantes = "SELECT * FROM vw_infantes_por_tutor WHERE idTutor = " + id;
-
-//        infa = "SELECT  i.idInfante,t.idTutor FROM Tutores T JOIN Infantes I ON T.idTutor = I.idTutor WHERE T.idTutor = " + id;
-//        nombreinf = "";
         entradasMensualesInfantes = "SELECT * FROM vw_entradas_mensuales_infantes WHERE idTutor = " + id;
+        
         // Esto es para poner datos en etiquetas.
         LId.setText(id);
         LNombre.setText(nombre);
-        cnx.seleccionar(infa, CBIdInfa);
         cnx.entablar(entradasMensualesInfantes, TConsultas);
         cnx.entablar(infantes, TInfantes);
     }

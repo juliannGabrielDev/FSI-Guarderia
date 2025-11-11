@@ -13,7 +13,7 @@ public class FAcceso extends javax.swing.JFrame {
         setLocationRelativeTo(this);
 
         //if para conectar ala Base de datos
-        if (cnx.conectar("localhost", "guarderia", "root", "") == 0) {
+        if (cnx.conectar("localhost", "guarderias", "root", "") == 0) {
             JOptionPane.showMessageDialog(this, "Error en la conexión");
             System.exit(0);
         }
