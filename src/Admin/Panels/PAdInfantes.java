@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import Util.Conexion;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -28,6 +30,10 @@ public class PAdInfantes extends javax.swing.JPanel {
         cnx.entablar(infantes, TConsultas);
         LDescripcion.setText("Lista de todos los infantes");
         cnx.seleccionar(grupos, CBGrupo);
+        
+        DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsultas.setRowSorter(sorter);
     }
 
     /**

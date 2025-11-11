@@ -2,6 +2,8 @@ package Admin.Panels;
 
 import Admin.Dialogs.JDPersonal;
 import Util.Conexion;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -27,6 +29,10 @@ public class PAdPersonal extends javax.swing.JPanel {
         initComponents();
         LDescripcion.setText("Lista completa del personal");
         cnx.entablar("SELECT * FROM vw_personal", TConsultas);
+        
+        DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsultas.setRowSorter(sorter);
     }
 
     /**

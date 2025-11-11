@@ -9,6 +9,8 @@ import Util.Conexion;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -28,6 +30,10 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         initComponents();
         LDescripcion.setText("Listar todas las entradas y salidas");
         cnx.entablar(entradasYSalidas, TConsultas);
+        
+        DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsultas.setRowSorter(sorter);
     }
 
     /**

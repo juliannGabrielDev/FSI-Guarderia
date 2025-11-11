@@ -2,6 +2,8 @@ package Admin.Panels;
 
 import Admin.Dialogs.JDEncargados;
 import Util.Conexion;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -29,6 +31,10 @@ public class PAdEncargados extends javax.swing.JPanel {
         initComponents();
         LDescripcion.setText("Mostrando todos los encargados (tutores y auxiliares)");
         cnx.entablar(todos, TConsultas);
+        
+        DefaultTableModel modelo = (DefaultTableModel) TConsultas.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        TConsultas.setRowSorter(sorter);
     }
 
     /**
