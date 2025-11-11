@@ -64,7 +64,7 @@ public class JDEncargados extends javax.swing.JDialog {
         jLabel1.setText("Encargados");
         jLabel1.setOpaque(true);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         BCancelar.setBackground(new java.awt.Color(255, 51, 102));
         BCancelar.setFont(new java.awt.Font("Anton", 0, 14)); // NOI18N

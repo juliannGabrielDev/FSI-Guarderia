@@ -1,11 +1,12 @@
 package Admin.Panels;
+
+import Admin.Dialogs.JDPersonal;
 import Util.Conexion;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 /**
  *
  * @author jli4n
@@ -13,12 +14,19 @@ import Util.Conexion;
 public class PAdPersonal extends javax.swing.JPanel {
 
     private Conexion cnx;
+
+    String todos = "SELECT * FROM vw_personal";
+    String admins = "SELECT idUsuario, nombreUsuario AS Usuario, tipoUsuario FROM usuarios WHERE tipoUsuario='Administrador'";
+    String educadores = "SELECT e.idEducadora, e.nombreedu AS Nombre, e.telefono AS Telefono, u.nombreUsuario AS Usuario FROM educadoras e INNER JOIN usuarios u ON e.idUsuario=u.idUsuario WHERE u.tipoUsuario='Educadora'";
+
     /**
      * Creates new form AdminPersonal
      */
     public PAdPersonal(Conexion cnx) {
         this.cnx = cnx;
         initComponents();
+        LDescripcion.setText("Lista completa del personal");
+        cnx.entablar("SELECT * FROM vw_personal", TConsultas);
     }
 
     /**
@@ -32,14 +40,14 @@ public class PAdPersonal extends javax.swing.JPanel {
 
         jToolBar2 = new javax.swing.JToolBar();
         TBuscar = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        BTodos = new javax.swing.JButton();
+        BAdmins = new javax.swing.JButton();
+        BEdus = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         BNuevo = new javax.swing.JButton();
         BEditar = new javax.swing.JButton();
         BBorrar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        LDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsultas = new javax.swing.JTable();
 
@@ -52,35 +60,45 @@ public class PAdPersonal extends javax.swing.JPanel {
 
         TBuscar.setFont(new java.awt.Font("Inter", 0, 14)); // NOI18N
         TBuscar.setPreferredSize(new java.awt.Dimension(140, 24));
+        TBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TBuscarKeyReleased(evt);
+            }
+        });
         jToolBar2.add(TBuscar);
 
-        jButton4.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton4.setText("TODOS");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        BTodos.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BTodos.setText("TODOS");
+        BTodos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTodos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BTodosActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton4);
+        jToolBar2.add(BTodos);
 
-        jButton5.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton5.setText("ADMINs");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        BAdmins.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BAdmins.setText("ADMINs");
+        BAdmins.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BAdmins.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BAdmins.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BAdminsActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton5);
+        jToolBar2.add(BAdmins);
 
-        jButton6.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton6.setText("EDUCADORES");
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton6);
+        BEdus.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BEdus.setText("EDUCADORES");
+        BEdus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BEdus.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEdus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEdusActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(BEdus);
 
         jLabel1.setFont(new java.awt.Font("Anton", 0, 18)); // NOI18N
         jLabel1.setText("Admin / Personal");
@@ -124,8 +142,8 @@ public class PAdPersonal extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
-        jLabel2.setText("Descripción de consulta");
+        LDescripcion.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
+        LDescripcion.setText("Descripción de consulta");
 
         TConsultas.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         TConsultas.setModel(new javax.swing.table.DefaultTableModel(
@@ -161,10 +179,9 @@ public class PAdPersonal extends javax.swing.JPanel {
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 596, Short.MAX_VALUE))
+                    .addComponent(LDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
@@ -179,7 +196,7 @@ public class PAdPersonal extends javax.swing.JPanel {
                     .addComponent(BBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(LDescripcion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
                 .addContainerGap())
@@ -190,34 +207,61 @@ public class PAdPersonal extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BBorrarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        LDescripcion.setText("Lista completa del personal");
+        cnx.entablar(todos, TConsultas);
+    }//GEN-LAST:event_BTodosActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void BAdminsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAdminsActionPerformed
+        LDescripcion.setText("Lista de los administradores");
+        cnx.entablar(admins, TConsultas);
+    }//GEN-LAST:event_BAdminsActionPerformed
 
     private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
-        // TODO add your handling code here:
+        JDPersonal dialog = new JDPersonal(new javax.swing.JFrame(), true);
+        dialog.setTitle("Nuevo Personal");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_BNuevoActionPerformed
 
     private void BEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEditarActionPerformed
-        // TODO add your handling code here:
+        JDPersonal dialog = new JDPersonal(new javax.swing.JFrame(), true);
+        dialog.setTitle("Editar Personal");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_BEditarActionPerformed
+
+    private void BEdusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEdusActionPerformed
+        LDescripcion.setText("Lista de los educadores");
+        cnx.entablar(educadores, TConsultas);
+    }//GEN-LAST:event_BEdusActionPerformed
+
+    private void TBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TBuscarKeyReleased
+        String texto = TBuscar.getText().trim();
+        LDescripcion.setText("Resultados de busqueda para: " + texto);
+
+        if (texto.isEmpty()) {
+            // Si está vacío, mostrar todo de nuevo
+            cnx.entablar("SELECT * FROM vw_personal", TConsultas);
+        } else {
+            // Buscar por varias columnas, no solo nombre
+            String[] columnas = {"nombre", "usuario", "tipoUsuario"};
+            cnx.buscar("vw_personal", columnas, texto, TConsultas);
+        }
+    }//GEN-LAST:event_TBuscarKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BAdmins;
     private javax.swing.JButton BBorrar;
     private javax.swing.JButton BEditar;
+    private javax.swing.JButton BEdus;
     private javax.swing.JButton BNuevo;
+    private javax.swing.JButton BTodos;
+    private javax.swing.JLabel LDescripcion;
     private javax.swing.JTextField TBuscar;
     private javax.swing.JTable TConsultas;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables

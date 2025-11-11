@@ -1,11 +1,12 @@
 package Admin.Panels;
+
+import Admin.Dialogs.JDEncargados;
 import Util.Conexion;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 /**
  *
  * @author jli4n
@@ -13,12 +14,21 @@ import Util.Conexion;
 public class PAdEncargados extends javax.swing.JPanel {
 
     private Conexion cnx;
+
+    String todos = "SELECT * FROM vw_encargados";
+    String tutores = "SELECT * FROM vw_encargados \n"
+            + "WHERE tipoEncargado COLLATE utf8mb4_unicode_ci = 'Tutor' COLLATE utf8mb4_unicode_ci;";
+    String auxiliares = "SELECT * FROM vw_encargados \n"
+            + "WHERE tipoEncargado COLLATE utf8mb4_unicode_ci = 'Auxiliar' COLLATE utf8mb4_unicode_ci;";
+
     /**
      * Creates new form AdminPersonal
      */
     public PAdEncargados(Conexion cnx) {
         this.cnx = cnx;
         initComponents();
+        LDescripcion.setText("Mostrando todos los encargados (tutores y auxiliares)");
+        cnx.entablar(todos, TConsultas);
     }
 
     /**
@@ -32,15 +42,14 @@ public class PAdEncargados extends javax.swing.JPanel {
 
         jTextField1 = new javax.swing.JTextField();
         jToolBar2 = new javax.swing.JToolBar();
-        TBuscar = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        BTodos = new javax.swing.JButton();
+        BTutores = new javax.swing.JButton();
+        BAuxiliares = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         BNuevo = new javax.swing.JButton();
         BEditar = new javax.swing.JButton();
         BBorrar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        LDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsultas = new javax.swing.JTable();
 
@@ -53,37 +62,38 @@ public class PAdEncargados extends javax.swing.JPanel {
         jToolBar2.setRollover(true);
         jToolBar2.setBorderPainted(false);
 
-        TBuscar.setFont(new java.awt.Font("Inter", 0, 14)); // NOI18N
-        TBuscar.setPreferredSize(new java.awt.Dimension(140, 24));
-        jToolBar2.add(TBuscar);
-
-        jButton4.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton4.setText("TODOS");
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        BTodos.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BTodos.setText("TODOS");
+        BTodos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTodos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BTodosActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton4);
+        jToolBar2.add(BTodos);
 
-        jButton5.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton5.setText("TUTORES");
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        BTutores.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BTutores.setText("TUTORES");
+        BTutores.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BTutores.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BTutores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BTutoresActionPerformed(evt);
             }
         });
-        jToolBar2.add(jButton5);
+        jToolBar2.add(BTutores);
 
-        jButton6.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jButton6.setText("AUXILIARES");
-        jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(jButton6);
+        BAuxiliares.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
+        BAuxiliares.setText("AUXILIARES");
+        BAuxiliares.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BAuxiliares.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BAuxiliares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BAuxiliaresActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(BAuxiliares);
 
         jLabel1.setFont(new java.awt.Font("Anton", 0, 18)); // NOI18N
         jLabel1.setText("Admin / Encargados");
@@ -95,6 +105,11 @@ public class PAdEncargados extends javax.swing.JPanel {
         BNuevo.setText("NUEVO");
         BNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BNuevoActionPerformed(evt);
+            }
+        });
 
         BEditar.setBackground(new java.awt.Color(0, 153, 153));
         BEditar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -103,6 +118,11 @@ public class PAdEncargados extends javax.swing.JPanel {
         BEditar.setText("EDITAR");
         BEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEditarActionPerformed(evt);
+            }
+        });
 
         BBorrar.setBackground(new java.awt.Color(255, 51, 102));
         BBorrar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -117,8 +137,8 @@ public class PAdEncargados extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
-        jLabel2.setText("Descripción de consulta");
+        LDescripcion.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
+        LDescripcion.setText("Descripción de consulta");
 
         TConsultas.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         TConsultas.setModel(new javax.swing.table.DefaultTableModel(
@@ -151,10 +171,9 @@ public class PAdEncargados extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 530, Short.MAX_VALUE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 530, Short.MAX_VALUE))
+                    .addComponent(LDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
@@ -169,7 +188,7 @@ public class PAdEncargados extends javax.swing.JPanel {
                     .addComponent(BBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(LDescripcion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
                 .addContainerGap())
@@ -180,26 +199,46 @@ public class PAdEncargados extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BBorrarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        LDescripcion.setText("Mostrando todos los encargados (tutores y auxiliares)");
+        cnx.entablar(todos, TConsultas);
+    }//GEN-LAST:event_BTodosActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void BTutoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTutoresActionPerformed
+        LDescripcion.setText("Mostrando únicamente los tutores registrados");
+        cnx.entablar(tutores, TConsultas);
+    }//GEN-LAST:event_BTutoresActionPerformed
+
+    private void BAuxiliaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAuxiliaresActionPerformed
+        LDescripcion.setText("Mostrando únicamente los auxiliares registrados");
+        cnx.entablar(auxiliares, TConsultas);
+    }//GEN-LAST:event_BAuxiliaresActionPerformed
+
+    private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
+        JDEncargados dialog = new JDEncargados(new javax.swing.JFrame(), true);
+        dialog.setTitle("Nuevo Encargado");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_BNuevoActionPerformed
+
+    private void BEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEditarActionPerformed
+        JDEncargados dialog = new JDEncargados(new javax.swing.JFrame(), true);
+        dialog.setTitle("Editar Encargado");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_BEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BAuxiliares;
     private javax.swing.JButton BBorrar;
     private javax.swing.JButton BEditar;
     private javax.swing.JButton BNuevo;
-    private javax.swing.JTextField TBuscar;
+    private javax.swing.JButton BTodos;
+    private javax.swing.JButton BTutores;
+    private javax.swing.JLabel LDescripcion;
     private javax.swing.JTable TConsultas;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar2;

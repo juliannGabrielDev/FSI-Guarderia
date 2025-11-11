@@ -1,11 +1,11 @@
 package Admin.Panels;
+
 import Util.Conexion;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ public class PAdRegistrosES extends javax.swing.JPanel {
     public PAdRegistrosES(Conexion cnx) {
         this.cnx = cnx;
         initComponents();
-
+        LDescripcion.setText("Listar todas las entradas y salidas");
         cnx.entablar(entradasYSalidas, TConsultas);
     }
 
@@ -47,12 +47,10 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         BConteoEnMes = new javax.swing.JButton();
         BReporte1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        LDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsultas = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
-        jLabel3 = new javax.swing.JLabel();
-        CBDia = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         CBMes = new javax.swing.JComboBox<>();
 
@@ -132,8 +130,8 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Anton", 0, 18)); // NOI18N
         jLabel1.setText("Admin / Registros de Entrada y Salida");
 
-        jLabel2.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
-        jLabel2.setText("Descripción de consulta");
+        LDescripcion.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
+        LDescripcion.setText("Descripción de consulta");
 
         TConsultas.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         TConsultas.setModel(new javax.swing.table.DefaultTableModel(
@@ -153,14 +151,6 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TConsultas);
 
         jToolBar1.setRollover(true);
-
-        jLabel3.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        jLabel3.setText("Día:");
-        jToolBar1.add(jLabel3);
-
-        CBDia.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
-        CBDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes" }));
-        jToolBar1.add(CBDia);
 
         jLabel4.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         jLabel4.setText("Mes:");
@@ -183,19 +173,18 @@ public class PAdRegistrosES extends javax.swing.JPanel {
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LDescripcion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jToolBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(16, 16, 16))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +196,7 @@ public class PAdRegistrosES extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
-                .addComponent(jLabel2)
+                .addComponent(LDescripcion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -215,10 +204,12 @@ public class PAdRegistrosES extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        LDescripcion.setText("Listar todas las entradas y salidas");
         cnx.entablar(entradasYSalidas, TConsultas);
     }//GEN-LAST:event_BTodosActionPerformed
 
     private void BHoyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BHoyActionPerformed
+        LDescripcion.setText("Entradas y salidas hoy");
         String sql = "SELECT * FROM vw_entradas_salidas WHERE fecha = CURDATE()";
         cnx.entablar(sql, TConsultas);
     }//GEN-LAST:event_BHoyActionPerformed
@@ -252,6 +243,7 @@ public class PAdRegistrosES extends javax.swing.JPanel {
 
     private void BConteoEnMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BConteoEnMesActionPerformed
         if (CBMes.getSelectedIndex() == 0) {
+            LDescripcion.setText("Total de entradas y salidas del mes por infante");
             cnx.entablar(conteoEntradasMes, TConsultas);
             return;
         }
@@ -270,9 +262,11 @@ public class PAdRegistrosES extends javax.swing.JPanel {
         int mesNumero = CBMes.getSelectedIndex();
         String sql = conteoEntradasMes + " WHERE mes = " + mesNumero;
         cnx.entablar(sql, TConsultas);
+        LDescripcion.setText("Listar todas las del mes: " + mesNumero);
     }//GEN-LAST:event_CBMesItemStateChanged
 
     private void BEsteMomentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEsteMomentoActionPerformed
+        LDescripcion.setText("Entradas y salidas en este momento");
         String sql = """
         SELECT 
             e.idInfante, 
@@ -310,6 +304,7 @@ public class PAdRegistrosES extends javax.swing.JPanel {
                 LEFT JOIN educadoras ed ON e.idEducadora = ed.idEducadora
                 ORDER BY e.fechaEntrada DESC, e.horaEntrada DESC;
             """;
+            LDescripcion.setText("Listar todas las entradas");
             cnx.entablar(sql, TConsultas);
         } else if (tipo.equals("SALIDA")) {
             sql = """
@@ -325,8 +320,10 @@ public class PAdRegistrosES extends javax.swing.JPanel {
                 LEFT JOIN educadoras ed ON s.idEducadora = ed.idEducadora
                 ORDER BY s.fechaSalida DESC, s.horaSalida DESC;
             """;
+            LDescripcion.setText("Listar todas las salidas");
             cnx.entablar(sql, TConsultas);
         } else {
+            LDescripcion.setText("Listar todas las entradas y salidas");
             cnx.entablar(entradasYSalidas, TConsultas);
         }
     }//GEN-LAST:event_CBTipoItemStateChanged
@@ -338,13 +335,11 @@ public class PAdRegistrosES extends javax.swing.JPanel {
     private javax.swing.JButton BHoy;
     private javax.swing.JButton BReporte1;
     private javax.swing.JButton BTodos;
-    private javax.swing.JComboBox<String> CBDia;
     private javax.swing.JComboBox<String> CBMes;
     private javax.swing.JComboBox<String> CBTipo;
+    private javax.swing.JLabel LDescripcion;
     private javax.swing.JTable TConsultas;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;

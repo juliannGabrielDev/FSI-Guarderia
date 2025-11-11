@@ -1,4 +1,6 @@
 package Admin.Panels;
+
+import Admin.Dialogs.JDInfantes;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -24,6 +26,7 @@ public class PAdInfantes extends javax.swing.JPanel {
         initComponents();
 
         cnx.entablar(infantes, TConsultas);
+        LDescripcion.setText("Lista de todos los infantes");
         cnx.seleccionar(grupos, CBGrupo);
     }
 
@@ -45,7 +48,7 @@ public class PAdInfantes extends javax.swing.JPanel {
         BNuevo = new javax.swing.JButton();
         BEditar = new javax.swing.JButton();
         BBorrar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        LDescripcion = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TConsultas = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
@@ -107,6 +110,11 @@ public class PAdInfantes extends javax.swing.JPanel {
         BNuevo.setText("NUEVO");
         BNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BNuevo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BNuevoActionPerformed(evt);
+            }
+        });
 
         BEditar.setBackground(new java.awt.Color(0, 153, 153));
         BEditar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -115,6 +123,11 @@ public class PAdInfantes extends javax.swing.JPanel {
         BEditar.setText("EDITAR");
         BEditar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         BEditar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        BEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEditarActionPerformed(evt);
+            }
+        });
 
         BBorrar.setBackground(new java.awt.Color(255, 51, 102));
         BBorrar.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
@@ -129,8 +142,8 @@ public class PAdInfantes extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
-        jLabel2.setText("Descripción de consulta");
+        LDescripcion.setFont(new java.awt.Font("Inter", 1, 14)); // NOI18N
+        LDescripcion.setText("Descripción de consulta");
 
         TConsultas.setFont(new java.awt.Font("Inter", 0, 12)); // NOI18N
         TConsultas.setModel(new javax.swing.table.DefaultTableModel(
@@ -165,20 +178,19 @@ public class PAdInfantes extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(BNuevo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(BEditar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(BBorrar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(BNuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BBorrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -195,7 +207,7 @@ public class PAdInfantes extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(LDescripcion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addContainerGap())
@@ -207,20 +219,22 @@ public class PAdInfantes extends javax.swing.JPanel {
     }//GEN-LAST:event_BBorrarActionPerformed
 
     private void BTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTodosActionPerformed
+        LDescripcion.setText("Lista de todos los infantes");
         cnx.entablar(infantes, TConsultas);
     }//GEN-LAST:event_BTodosActionPerformed
 
     private void BPorGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BPorGrupoActionPerformed
         //cnx.entablar(infantesPorGrupos, TConsultas);
-        
+
         if (CBGrupo.getSelectedIndex() == 0) {
             cnx.entablar(infantesPorGrupos, TConsultas);
             return;
         }
-        
+
         String grupo = CBGrupo.getSelectedItem().toString();
         String sql = infantesPorGrupos + " WHERE nombreGrupo = " + grupo;
         cnx.entablar(sql, TConsultas);
+        LDescripcion.setText("Grupo: " + grupo);
     }//GEN-LAST:event_BPorGrupoActionPerformed
 
     private void BReporte2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BReporte2ActionPerformed
@@ -247,11 +261,25 @@ public class PAdInfantes extends javax.swing.JPanel {
             cnx.entablar(infantesPorGrupos, TConsultas);
             return;
         }
-        
+
         String grupo = CBGrupo.getSelectedItem().toString();
         String sql = infantesPorGrupos + " WHERE nombreGrupo = '" + grupo + "'";
         cnx.entablar(sql, TConsultas);
     }//GEN-LAST:event_CBGrupoItemStateChanged
+
+    private void BNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BNuevoActionPerformed
+        JDInfantes dialog = new JDInfantes(new javax.swing.JFrame(), true);
+        dialog.setTitle("Nuevo Infante");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_BNuevoActionPerformed
+
+    private void BEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEditarActionPerformed
+        JDInfantes dialog = new JDInfantes(new javax.swing.JFrame(), true);
+        dialog.setTitle("Editar Infante");
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_BEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,10 +290,10 @@ public class PAdInfantes extends javax.swing.JPanel {
     private javax.swing.JButton BReporte2;
     private javax.swing.JButton BTodos;
     private javax.swing.JComboBox<String> CBGrupo;
+    private javax.swing.JLabel LDescripcion;
     private javax.swing.JTextField TBuscar;
     private javax.swing.JTable TConsultas;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
