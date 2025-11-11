@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import Util.Conexion;
 
 public class JDBitacora extends javax.swing.JDialog {
 

@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import Util.Conexion;
 
 public class FPersonal extends javax.swing.JFrame {
 
